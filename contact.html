@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUXORA — Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="nav-logo">LUXORA</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+  <a href="cart.html" class="cart-badge">Cart <span class="badge-count" id="cartCount">0</span></a>
+</nav>
+
+<!-- CONTACT -->
+<div class="page-content">
+  <div class="section-title">
+    <h2>Get In Touch</h2>
+    <div class="divider"></div>
+  </div>
+
+  <div class="contact-wrap">
+    <div class="contact-grid">
+      <div class="form-group">
+        <label>First Name *</label>
+        <input type="text" id="firstName" placeholder="John"/>
+      </div>
+      <div class="form-group">
+        <label>Last Name *</label>
+        <input type="text" id="lastName" placeholder="Doe"/>
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="email" placeholder="john@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="tel" id="phone" placeholder="+1 234 567 890"/>
+      </div>
+      <div class="form-group full">
+        <label>Subject</label>
+        <select id="subject">
+          <option value="">Select a topic...</option>
+          <option value="order">Order Inquiry</option>
+          <option value="shipping">Shipping &amp; Returns</option>
+          <option value="product">Product Question</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label>Message *</label>
+        <textarea id="message" placeholder="How can we help you?"></textarea>
+      </div>
+    </div>
+    <button class="btn-solid" onclick="submitForm()">Send Message</button>
+
+    <!-- CONTACT DETAILS -->
+    <div class="contact-details">
+      <div class="contact-item fade-in fade-in-d1">
+        <div class="icon">📍</div>
+        <h4>Visit Us</h4>
+        <p>742 Evergreen Terrace<br/>Springfield, IL 62701</p>
+      </div>
+      <div class="contact-item fade-in fade-in-d2">
+        <div class="icon">📧</div>
+        <h4>Email</h4>
+        <p>hello@luxora.com<br/>support@luxora.com</p>
+      </div>
+      <div class="contact-item fade-in fade-in-d3">
+        <div class="icon">📞</div>
+        <h4>Call Us</h4>
+        <p>+1 (555) 123-4567<br/>Mon – Fri, 9am – 6pm</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>© 2025 LUXORA — All Rights Reserved</footer>
+<div class="toast" id="toast"></div>
+
+<script src="cart.js"></script>
+<script>
+  function submitForm() {
+    const first   = document.getElementById('firstName').value.trim();
+    const last    = document.getElementById('lastName').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+    if (!first || !last || !email || !message) {
+      showToast('Please fill in all required fields ⚠️', true);
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showToast('Please enter a valid email address ⚠️', true);
+      return;
+    }
+
+    // Success
+    showToast(`Thank you, ${first}! We'll be in touch soon 💌`);
+
+    // Reset
+    document.getElementById('firstName').value  = '';
+    document.getElementById('lastName').value   = '';
+    document.getElementById('email').value      = '';
+    document.getElementById('phone').value      = '';
+    document.getElementById('subject').value    = '';
+    document.getElementById('message').value    = '';
+  }
+</script>
+</body>
+</html>

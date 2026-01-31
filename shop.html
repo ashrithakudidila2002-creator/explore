@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUXORA — Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="nav-logo">LUXORA</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="shop.html" class="active">Shop</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <a href="cart.html" class="cart-badge">Cart <span class="badge-count" id="cartCount">0</span></a>
+</nav>
+
+<!-- SHOP -->
+<div class="page-content">
+  <div class="section-title">
+    <h2>Our Collection</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="product-grid" id="shop-grid"></div>
+</div>
+
+<footer>© 2025 LUXORA — All Rights Reserved</footer>
+<div class="toast" id="toast"></div>
+
+<script src="cart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('shop-grid');
+    PRODUCTS.forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'product-card fade-in';
+      card.style.animationDelay = (i * 0.08) + 's';
+      card.innerHTML = `
+        <div class="product-img">${p.emoji}</div>
+        <div class="product-info">
+          <div class="cat">${p.cat}</div>
+          <h3>${p.name}</h3>
+          <div class="price">$${p.price} <span class="old">$${p.old}</span></div>
+          <button class="btn-add" onclick="addToCart(${p.id})">Add to Cart</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+  });
+</script>
+</body>
+</html>

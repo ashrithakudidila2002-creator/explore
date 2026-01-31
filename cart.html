@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUXORA — Cart</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="nav-logo">LUXORA</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <a href="cart.html" class="cart-badge">Cart <span class="badge-count" id="cartCount">0</span></a>
+</nav>
+
+<!-- CART -->
+<div class="page-content">
+  <div class="section-title">
+    <h2>Your Cart</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="cart-wrap" id="cart-wrap"></div>
+</div>
+
+<footer>© 2025 LUXORA — All Rights Reserved</footer>
+<div class="toast" id="toast"></div>
+
+<script src="cart.js"></script>
+<script>
+  function renderCart() {
+    const wrap = document.getElementById('cart-wrap');
+    const cart = getCart();
+    wrap.innerHTML = '';
+
+    // ── EMPTY STATE ──
+    if (cart.length === 0) {
+      wrap.innerHTML = `
+        <div class="cart-empty">
+          <div class="icon">🛒</div>
+          <h3>Your cart is empty</h3>
+          <p>Looks like you haven't added anything yet.</p>
+          <a href="shop.html" class="btn-outline" style="margin-top:24px; display:inline-block;">Browse Shop</a>
+        </div>`;
+      return;
+    }
+
+    // ── CART ITEMS ──
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'cart-item fade-in';
+      div.innerHTML = `
+        <div class="cart-item-img">${item.emoji}</div>
+        <div class="cart-item-info">
+          <h4>${item.name}</h4>
+          <div class="cat">${item.cat}</div>
+        </div>
+        <div class="qty-control">
+          <button class="qty-btn" onclick="changeQty(${item.id}, -1)">−</button>
+          <span class="qty-val">${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty(${item.id}, 1)">+</button>
+        </div>
+        <div class="cart-item-price">$${item.price * item.qty}</div>
+        <button class="cart-remove" onclick="removeFromCart(${item.id})">✕</button>`;
+      wrap.appendChild(div);
+    });
+
+    // ── SUMMARY ──
+    const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const shipping = subtotal > 200 ? 0 : 12;
+    const total    = subtotal + shipping;
+    const shippingLabel = shipping === 0
+      ? '<span class="free-shipping">Free</span>'
+      : '$' + shipping;
+
+    const summary = document.createElement('div');
+    summary.className = 'cart-summary';
+    summary.innerHTML = `
+      <div class="row"><span>Subtotal</span><span>$${subtotal}</span></div>
+      <div class="row"><span>Shipping</span><span>${shippingLabel}</span></div>
+      <div class="total"><span>Total</span><span>$${total}</span></div>
+      <button class="btn-solid" onclick="showToast('Checkout coming soon! 🎉')">Proceed to Checkout</button>`;
+    wrap.appendChild(summary);
+  }
+
+  // Initial render + re-render on badge update
+  document.addEventListener('DOMContentLoaded', renderCart);
+</script>
+</body>
+</html>

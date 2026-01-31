@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUXORA — Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    /* ─── HERO ─── */
+    .hero {
+      position:relative;
+      height: calc(100vh - 80px);
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, #1a1410 0%, #0f0f0f 60%);
+      overflow:hidden;
+    }
+    .hero::before {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201,169,110,0.08) 0%, transparent 70%);
+    }
+    .hero-content { text-align:center; position:relative; z-index:1; }
+    .hero-content h1 {
+      font-family: var(--font-display); font-weight:300;
+      font-size:5.5rem; letter-spacing:0.08em; line-height:1.1;
+      color: var(--text); opacity:0;
+      animation: fadeInUp .7s .15s ease forwards;
+    }
+    .hero-content h1 span { color:var(--accent); }
+    .hero-content p {
+      margin-top:18px; color:var(--text-muted); font-size:0.95rem;
+      letter-spacing:0.06em; font-weight:300;
+      opacity:0; animation: fadeInUp .6s .35s ease forwards;
+    }
+    .hero-content .btn-outline {
+      margin-top:36px; opacity:0;
+      animation: fadeInUp .6s .5s ease forwards;
+    }
+
+    /* ─── DECORATIVE CIRCLES ─── */
+    .deco {
+      position:absolute; border-radius:50%;
+      border:1px solid rgba(201,169,110,0.07); pointer-events:none;
+    }
+    .deco-1 { width:400px; height:400px; top:-100px; right:-120px; }
+    .deco-2 { width:240px; height:240px; bottom:60px; left:-80px; opacity:.5; }
+
+    @media(max-width:600px){
+      .hero-content h1 { font-size:2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="index.html" class="nav-logo">LUXORA</a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="shop.html">Shop</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <a href="cart.html" class="cart-badge">Cart <span class="badge-count" id="cartCount">0</span></a>
+</nav>
+
+<!-- HERO -->
+<div class="page-content" style="padding-top:0;">
+  <div class="hero">
+    <div class="deco deco-1"></div>
+    <div class="deco deco-2"></div>
+    <div class="hero-content">
+      <h1>Refined<br/><span>Elegance</span></h1>
+      <p>Curated luxury essentials for the discerning.</p>
+      <a href="shop.html" class="btn-outline">Explore Collection</a>
+    </div>
+  </div>
+
+  <!-- FEATURED -->
+  <div class="section-title">
+    <h2>Featured Picks</h2>
+    <div class="divider"></div>
+  </div>
+  <div class="product-grid" id="featured-grid"></div>
+</div>
+
+<footer>© 2025 LUXORA — All Rights Reserved</footer>
+<div class="toast" id="toast"></div>
+
+<script src="cart.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const grid = document.getElementById('featured-grid');
+    PRODUCTS.filter(p => p.featured).forEach((p, i) => {
+      const card = document.createElement('div');
+      card.className = 'product-card fade-in';
+      card.style.animationDelay = (i * 0.1 + 0.6) + 's';
+      card.innerHTML = `
+        <div class="product-img">${p.emoji}</div>
+        <div class="product-info">
+          <div class="cat">${p.cat}</div>
+          <h3>${p.name}</h3>
+          <div class="price">$${p.price} <span class="old">$${p.old}</span></div>
+          <button class="btn-add" onclick="addToCart(${p.id})">Add to Cart</button>
+        </div>`;
+      grid.appendChild(card);
+    });
+  });
+</script>
+</body>
+</html>
